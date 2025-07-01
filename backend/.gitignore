@@ -1,23 +1,9 @@
-# 依赖文件夹 (必须忽略)
-node_modules/
-
-# 环境变量文件 (最关键的忽略项!)
+# 忽略存放敏感信息和密码的环境变量文件
 .env
-.env.*
-!.env.example
 
-# 日志文件
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# 忽略 Python 自动生成的字节码缓存目录
+__pycache__/
 
-# 生产环境打包文件夹
-/build
-/dist
-
-# 操作系统和编辑器生成的文件
+# 忽略常见的操作系统生成文件
 .DS_Store
-Thumbs.db
-.idea/
-.vscode/
+Thumbs.db 
