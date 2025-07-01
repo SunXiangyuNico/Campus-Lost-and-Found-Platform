@@ -3,6 +3,10 @@ from flask_cors import CORS
 from config.db import connectDB
 from routes.auth import auth_bp
 import os
+from dotenv import load_dotenv
+
+# 在所有其他代码执行前，第一时间从 .env 文件加载环境变量
+load_dotenv()
 
 # 初始化 Flask 应用
 app = Flask(__name__)

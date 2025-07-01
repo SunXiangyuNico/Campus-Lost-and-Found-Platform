@@ -1,4 +1,0 @@
-{
-    "mongoURI": "mongodb+srv://ylj051002:04764221272yu@campus-lost-and-found-p.9ohoupi.mongodb.net/?retryWrites=true&w=majority&appName=Campus-Lost-and-Found-Platform",
-    "jwtSecret": "a-very-secret-key-for-our-lost-and-found-project"
-} 
