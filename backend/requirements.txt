@@ -1,0 +1,14 @@
+# Web 框架
+Flask
+
+# MongoDB 对象文档映射器 (ODM)
+mongoengine
+
+# 处理跨域资源共享 (CORS)
+Flask-Cors
+
+# 用于密码哈希
+bcrypt
+
+# 用于生成和验证 JSON Web Tokens (JWT)
+PyJWT 
