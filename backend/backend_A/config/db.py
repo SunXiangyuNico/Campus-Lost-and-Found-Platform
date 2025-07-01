@@ -1,25 +1,17 @@
-import json
 from mongoengine import connect, disconnect
 import os
 
 # 定义一个函数来连接数据库
 def connectDB():
     """
-    读取配置文件并连接到 MongoDB 数据库。
+    从环境变量中读取 MONGO_URI 并连接到数据库。
     """
     try:
-        # 读取同目录下的 default.json 文件来获取配置
-        # __file__ 是当前脚本的路径，os.path.dirname(__file__) 获取当前目录
-        config_path = os.path.join(os.path.dirname(__file__), 'default.json')
-        
-        with open(config_path) as config_file:
-            config = json.load(config_file)
-        
-        # 从配置中获取 MongoDB 的连接字符串
-        db_uri = config.get('mongoURI')
+        # 使用 os.environ.get() 从环境变量中安全地获取连接字符串
+        db_uri = os.environ.get('MONGO_URI')
         
         if not db_uri:
-            raise Exception("mongoURI not found in config file")
+            raise Exception("MONGO_URI not found in environment variables")
 
         # 使用 MongoEngine 连接到数据库
         connect(host=db_uri)

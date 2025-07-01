@@ -6,14 +6,8 @@ import json
 import datetime
 import os
 
-# 从配置文件加载 JWT 密钥
-def load_jwt_secret():
-    config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'default.json')
-    with open(config_path) as config_file:
-        config = json.load(config_file)
-    return config.get('jwtSecret')
-
-JWT_SECRET = load_jwt_secret()
+# 直接从环境变量中获取 JWT 密钥
+JWT_SECRET = os.environ.get('JWT_SECRET')
 
 def register_user():
     """
@@ -113,4 +107,41 @@ def get_me():
 
     except Exception as e:
         print(f"Error in get_me: {e}")
+        return jsonify({"msg": "Server Error"}), 500
+
+def update_me():
+    """
+    Controller: 更新当前登录用户的信息
+    (例如: 用户名)
+    """
+    try:
+        # 1. user_id 由 auth_middleware 注入
+        user_id = request.user_id
+        user = User.objects.with_id(user_id)
+
+        if not user:
+            return jsonify({"msg": "User not found"}), 404
+
+        # 2. 获取请求体中的 JSON 数据
+        data = request.get_json()
+        if not data:
+            return jsonify({"msg": "Request body must be JSON"}), 400
+
+        # 3. 更新允许修改的字段
+        # 我们只允许用户更新他们的 username
+        if 'username' in data:
+            new_username = data['username']
+            # 可选的健壮性检查: 确保新用户名没有被其他人使用
+            if User.objects(username=new_username, id__ne=user_id).first():
+                 return jsonify({"msg": "Username already taken"}), 400
+            user.username = new_username
+
+        # 4. 保存更新后的用户对象
+        user.save()
+
+        # 5. 返回更新后的用户信息
+        return jsonify(user.to_json()), 200
+
+    except Exception as e:
+        print(f"Error in update_me: {e}")
         return jsonify({"msg": "Server Error"}), 500 

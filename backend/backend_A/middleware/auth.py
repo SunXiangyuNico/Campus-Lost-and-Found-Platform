@@ -1,17 +1,10 @@
 from functools import wraps
 from flask import request, jsonify
 import jwt
-import json
 import os
 
-# 从配置文件加载 JWT 密钥
-def load_jwt_secret():
-    config_path = os.path.join(os.path.dirname(__file__), '..', 'config', 'default.json')
-    with open(config_path) as config_file:
-        config = json.load(config_file)
-    return config.get('jwtSecret')
-
-JWT_SECRET = load_jwt_secret()
+# 直接从环境变量中获取 JWT 密钥
+JWT_SECRET = os.environ.get('JWT_SECRET')
 
 def auth_middleware(f):
     """

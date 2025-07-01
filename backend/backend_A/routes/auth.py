@@ -1,5 +1,5 @@
 from flask import Blueprint
-from controllers.authController import register_user, login_user, get_me
+from controllers.authController import register_user, login_user, get_me, update_me
 from middleware.auth import auth_middleware
 
 # 创建一个名为 'auth' 的蓝图 (Blueprint)
@@ -20,4 +20,9 @@ auth_bp.route('/login', methods=['POST'])(login_user)
 # @desc    获取当前登录用户的信息
 # @access  Private
 # 使用 @auth_middleware 装饰器来保护这个路由
-auth_bp.route('/me', methods=['GET'])(auth_middleware(get_me)) 
+auth_bp.route('/me', methods=['GET'])(auth_middleware(get_me))
+
+# @route   PATCH /api/auth/me
+# @desc    更新当前登录用户的信息
+# @access  Private
+auth_bp.route('/me', methods=['PATCH'])(auth_middleware(update_me)) 

@@ -11,4 +11,7 @@ Flask-Cors
 bcrypt
 
 # 用于生成和验证 JSON Web Tokens (JWT)
-PyJWT 
+PyJWT
+
+# 用于从 .env 文件加载环境变量，保证配置安全
+python-dotenv 

@@ -3,6 +3,10 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv  # <-- 新增第1步: 导入 load_dotenv 函数
 import os
+from dotenv import load_dotenv
+
+# 在所有其他代码执行前，第一时间从 .env 文件加载环境变量
+load_dotenv()
 
 # 2. (关键步骤) 在所有代码执行前，加载 .env 文件中的变量
 load_dotenv() # <-- 新增第2步: 执行函数，它会自动查找并加载 .env 文件
