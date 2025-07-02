@@ -87,11 +87,18 @@
       v-model:visible="showRegisterDialog"
       @switch-login="switchToLogin"
     />
+    
+    <el-dialog v-model="showLoginTipDialog" title="未登录" width="340px" :show-close="true" center>
+      <div style="text-align:center;">
+        <div style="font-size:18px;color:#ff9800;margin-bottom:12px;">请先登录后再访问个人中心</div>
+        <el-button type="primary" @click="goLoginFromTip">去登录</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import Navbar from '../components/Navbar.vue'
 import PostList from '../components/PostList.vue'
 import PostDetail from '../components/PostDetail.vue'
@@ -160,9 +167,26 @@ function switchToLogin() {
 const showPostDialog = ref(false)
 const showLoginDialog = ref(false)
 const showRegisterDialog = ref(false)
+const showLoginTipDialog = ref(false)
 
 const userStore = useUserStore()
 const isLogin = computed(() => !!userStore.token)
+
+function handleShowLoginTip() {
+  showLoginTipDialog.value = true
+}
+
+onMounted(() => {
+  window.addEventListener('show-login-tip', handleShowLoginTip)
+})
+onUnmounted(() => {
+  window.removeEventListener('show-login-tip', handleShowLoginTip)
+})
+
+function goLoginFromTip() {
+  showLoginTipDialog.value = false
+  showLoginDialog.value = true
+}
 </script>
 
 <style scoped>

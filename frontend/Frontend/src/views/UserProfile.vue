@@ -1,28 +1,37 @@
 <template>
   <div class="profile-layout">
-    <div class="profile-navbar">
-      <el-button type="primary" icon="el-icon-arrow-left" @click="goHome" round>返回主页</el-button>
-      <span class="profile-title">个人中心</span>
+    <div v-if="!isLogin" class="not-login-tip">
+      <el-card style="max-width:400px;margin:60px auto;text-align:center;">
+        <div style="font-size:20px;color:#ff9800;margin-bottom:12px;">未登录</div>
+        <div style="margin-bottom:16px;">请先登录后再访问个人中心</div>
+        <el-button type="primary" @click="goHome">返回主页</el-button>
+      </el-card>
     </div>
-    <div class="profile-header">
-      <UserCard :user="userInfo" />
+    <div v-else>
+      <div class="profile-navbar">
+        <el-button type="primary" icon="el-icon-arrow-left" @click="goHome" round>返回主页</el-button>
+        <span class="profile-title">个人中心</span>
+      </div>
+      <div class="profile-header">
+        <UserCard :user="userInfo" />
+      </div>
+      <el-card class="profile-card">
+        <el-tabs v-model="activeTab">
+          <el-tab-pane label="我的发布" name="published">
+            <PostList :posts="myPublishedPosts" :selectedId="selectedPublishedId" @select="selectPublished" />
+            <div v-if="selectedPublishedPost" class="detail-panel">
+              <PostDetail :post="selectedPublishedPost" :map-img="mapImg" />
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="我的认领" name="claimed">
+            <PostList :posts="myClaimedPosts" :selectedId="selectedClaimedId" @select="selectClaimed" />
+            <div v-if="selectedClaimedPost" class="detail-panel">
+              <PostDetail :post="selectedClaimedPost" :map-img="mapImg" />
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+      </el-card>
     </div>
-    <el-card class="profile-card">
-      <el-tabs v-model="activeTab">
-        <el-tab-pane label="我的发布" name="published">
-          <PostList :posts="myPublishedPosts" :selectedId="selectedPublishedId" @select="selectPublished" />
-          <div v-if="selectedPublishedPost" class="detail-panel">
-            <PostDetail :post="selectedPublishedPost" :map-img="mapImg" />
-          </div>
-        </el-tab-pane>
-        <el-tab-pane label="我的认领" name="claimed">
-          <PostList :posts="myClaimedPosts" :selectedId="selectedClaimedId" @select="selectClaimed" />
-          <div v-if="selectedClaimedPost" class="detail-panel">
-            <PostDetail :post="selectedClaimedPost" :map-img="mapImg" />
-          </div>
-        </el-tab-pane>
-      </el-tabs>
-    </el-card>
   </div>
 </template>
 
@@ -35,6 +44,7 @@ import { useUserStore } from '../store/user'
 import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
+const isLogin = computed(() => !!userStore.userInfo && !!userStore.userInfo.id)
 const userInfo = computed(() => userStore.userInfo || {
   avatar: '',
   nickname: '未登录',
@@ -129,5 +139,11 @@ function goHome() {
     min-width: 0;
     padding: 8px;
   }
+}
+.not-login-tip {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
 }
 </style> 
