@@ -29,7 +29,7 @@
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue'
 import { ElMessage } from 'element-plus'
-import { register } from '../api/auth'
+import { register, getUserInfo } from '../api/auth'
 import { useUserStore } from '../store/user'
 const props = defineProps({
   visible: Boolean
@@ -90,7 +90,9 @@ async function onRegister() {
       
       // 保存token和用户信息
       userStore.setToken(response.data.token)
-      userStore.setUserInfo(response.data.user)
+      // 新增：注册后立即拉取用户信息
+      const userInfoResp = await getUserInfo(response.data.token)
+      userStore.setUserInfo(userInfoResp.data)
       
       ElMessage.success('注册成功')
       emit('update:visible', false)
