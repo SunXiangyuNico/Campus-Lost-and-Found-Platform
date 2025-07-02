@@ -186,10 +186,20 @@ function onContact() {
     return
   }
   if (!props.isLogin) {
-    ElMessageBox.alert('您还未登录，请先登录后再联系！', '未登录', {
-      confirmButtonText: '去登录',
-      type: 'warning',
-      callback: () => emit('require-login')
+    ElMessageBox.confirm(
+      '您还未登录，请先登录后再联系！',
+      '未登录',
+      {
+        confirmButtonText: '去登录',
+        cancelButtonText: '取消',
+        type: 'warning',
+        showClose: true,
+        distinguishCancelAndClose: true
+      }
+    ).then(() => {
+      emit('require-login')
+    }).catch(() => {
+      // 用户点击关闭或取消，不做任何处理
     })
     return
   }
@@ -200,10 +210,20 @@ function onContact() {
 function onSendComment() {
   if (!commentText.value.trim()) return
   if (!props.isLogin) {
-    ElMessageBox.alert('您还未登录，请先登录后再评论！', '未登录', {
-      confirmButtonText: '去登录',
-      type: 'warning',
-      callback: () => emit('require-login')
+    ElMessageBox.confirm(
+      '您还未登录，请先登录后再评论！',
+      '未登录',
+      {
+        confirmButtonText: '去登录',
+        cancelButtonText: '取消',
+        type: 'warning',
+        showClose: true,
+        distinguishCancelAndClose: true
+      }
+    ).then(() => {
+      emit('require-login')
+    }).catch(() => {
+      // 用户点击关闭或取消，不做任何处理
     })
     return
   }
