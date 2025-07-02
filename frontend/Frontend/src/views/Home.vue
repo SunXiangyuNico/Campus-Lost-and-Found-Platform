@@ -1,5 +1,6 @@
 <template>
   <div class="home-layout">
+    <Navbar @login="showLoginDialog = true" @register="showRegisterDialog = true" />
     <div class="main-topbar">
       <el-input v-model="search" placeholder="搜索物品名称、地点等" class="search-input" clearable style="width: 320px; margin-right: 16px;" />
       <el-select v-model="typeFilter" placeholder="全部类型" class="type-select" style="width: 120px; margin-right: 16px;">
@@ -8,6 +9,8 @@
         <el-option label="招领" value="found" />
       </el-select>
       <el-date-picker v-model="dateFilter" type="date" placeholder="选择日期" class="date-picker" style="width: 150px;" />
+      <div style="flex:1"></div>
+      <el-button type="primary" @click="showPostDialog = true">发布</el-button>
     </div>
     <div class="main-content">
       <div class="left-panel">
@@ -20,13 +23,26 @@
         </div>
       </div>
     </div>
+    <el-dialog v-model="showPostDialog" title="发布新信息" width="650px" :close-on-click-modal="false">
+      <NewPostForm @success="showPostDialog = false" />
+    </el-dialog>
+    <el-dialog v-model="showLoginDialog" title="登录" width="400px" :close-on-click-modal="false">
+      <LoginForm @success="showLoginDialog = false" />
+    </el-dialog>
+    <el-dialog v-model="showRegisterDialog" title="注册" width="500px" :close-on-click-modal="false">
+      <RegisterForm @success="showRegisterDialog = false" />
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
+// import Navbar from '../components/Navbar.vue'
 import PostList from '../components/PostList.vue'
 import PostDetail from '../components/PostDetail.vue'
+import NewPostForm from '../components/NewPostForm.vue'
+// import LoginForm from '../components/LoginForm.vue'
+// import RegisterForm from '../components/RegisterForm.vue'
 const mapImg = '/map.png'
 
 const posts = ref([
@@ -94,6 +110,9 @@ const filteredPosts = computed(() => {
 function selectPost(id) {
   selectedPostId.value = id
 }
+const showPostDialog = ref(false)
+const showLoginDialog = ref(false)
+const showRegisterDialog = ref(false)
 </script>
 
 <style scoped>

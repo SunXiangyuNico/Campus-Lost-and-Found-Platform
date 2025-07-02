@@ -5,7 +5,6 @@
       <span class="brand">校园失物招领平台</span>
       <el-menu mode="horizontal" :default-active="activeMenu" class="nav-menu" @select="onMenuSelect">
         <el-menu-item index="/">首页</el-menu-item>
-        <el-menu-item index="/new">发布</el-menu-item>
         <el-menu-item index="/profile">个人中心</el-menu-item>
       </el-menu>
     </div>
