@@ -50,8 +50,8 @@
     <el-form-item label="物品描述" prop="desc">
       <el-input v-model="form.desc" type="textarea" :rows="3" placeholder="请输入物品描述" />
     </el-form-item>
-    <el-form-item label="联系方式" prop="contact">
-      <el-input v-model="form.contact" placeholder="如手机号/微信/QQ" />
+    <el-form-item label="邮箱" prop="contact">
+      <el-input v-model="form.contact" placeholder="请输入邮箱" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit" :loading="loading" style="width:100%">发布</el-button>

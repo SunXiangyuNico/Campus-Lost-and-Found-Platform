@@ -12,19 +12,19 @@
         <p>加入我们的校园失物招领平台</p>
       </div>
       
-      <el-form-item prop="nickname">
+      <el-form-item prop="realname">
         <el-input 
-          v-model="form.nickname" 
-          placeholder="昵称"
+          v-model="form.realname" 
+          placeholder="请输入姓名"
           size="large"
           prefix-icon="User"
         />
       </el-form-item>
       
-      <el-form-item prop="username">
+      <el-form-item prop="studentId">
         <el-input 
-          v-model="form.username" 
-          placeholder="用户名"
+          v-model="form.studentId" 
+          placeholder="请输入学号"
           size="large"
           prefix-icon="User"
         />
@@ -33,7 +33,7 @@
       <el-form-item prop="email">
         <el-input 
           v-model="form.email" 
-          placeholder="邮箱"
+          placeholder="请输入邮箱"
           size="large"
           prefix-icon="Message"
         />
@@ -43,13 +43,12 @@
         <el-input 
           v-model="form.password" 
           type="password" 
-          placeholder="密码"
+          placeholder="请输入密码"
           size="large"
           prefix-icon="Lock"
           show-password
         />
       </el-form-item>
-      
       <el-form-item prop="confirmPassword">
         <el-input 
           v-model="form.confirmPassword" 
@@ -98,8 +97,8 @@ const loading = ref(false)
 const agreeTerms = ref(false)
 
 const form = reactive({
-  nickname: '',
-  username: '',
+  realname: '',
+  studentId: '',
   email: '',
   password: '',
   confirmPassword: ''
@@ -116,14 +115,13 @@ const validateConfirmPassword = (rule, value, callback) => {
 }
 
 const rules = {
-  nickname: [
-    { required: true, message: '请输入昵称', trigger: 'blur' },
-    { min: 2, max: 20, message: '昵称长度在 2 到 20 个字符', trigger: 'blur' }
+  realname: [
+    { required: true, message: '请输入姓名', trigger: 'blur' },
+    { min: 2, max: 20, message: '姓名长度在 2 到 20 个字符', trigger: 'blur' }
   ],
-  username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 3, max: 20, message: '用户名长度在 3 到 20 个字符', trigger: 'blur' },
-    { pattern: /^[a-zA-Z0-9_]+$/, message: '用户名只能包含字母、数字和下划线', trigger: 'blur' }
+  studentId: [
+    { required: true, message: '请输入学号', trigger: 'blur' },
+    { pattern: /^\d{6,20}$/, message: '学号应为6-20位数字', trigger: 'blur' }
   ],
   email: [
     { required: true, message: '请输入邮箱地址', trigger: 'blur' },
