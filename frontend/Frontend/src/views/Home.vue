@@ -106,8 +106,12 @@ const mapImg = '/map.png'
 const posts = ref([])
 
 async function fetchPosts() {
-  const resp = await getMyPosts()
-  posts.value = resp.data
+  try {
+    const resp = await getMyPosts()
+    posts.value = resp.data
+  } catch (e) {
+    posts.value = []
+  }
 }
 
 onMounted(fetchPosts)
