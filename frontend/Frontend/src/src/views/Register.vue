@@ -29,8 +29,6 @@
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue'
 import { ElMessage } from 'element-plus'
-import { register } from '../api/auth'
-import { useUserStore } from '../store/user'
 const props = defineProps({
   visible: Boolean
 })
@@ -63,38 +61,12 @@ const rules = {
     { required: true, message: '请输入微信号', trigger: 'blur' }
   ]
 }
-const userStore = useUserStore()
-
-async function onRegister() {
-  formRef.value.validate(async valid => {
+function onRegister() {
+  formRef.value.validate(valid => {
     if (!valid) return
-    
-    try {
-      const response = await register({
-        username: form.value.name, // 使用姓名作为用户名
-        password: form.value.password,
-        name: form.value.name,
-        studentId: form.value.studentId,
-        phone: form.value.phone,
-        wechat: form.value.wechat
-      })
-      
-      // 保存token和用户信息
-      userStore.setToken(response.data.token)
-      userStore.setUserInfo(response.data.user)
-      
-      ElMessage.success('注册成功')
-      emit('update:visible', false)
-      
-      // 清空表单
-      form.value.name = ''
-      form.value.studentId = ''
-      form.value.password = ''
-      form.value.phone = ''
-      form.value.wechat = ''
-    } catch (error) {
-      ElMessage.error(error.response?.data?.message || '注册失败')
-    }
+    // 注册逻辑，成功后关闭弹窗
+    ElMessage.success('注册成功')
+    emit('update:visible', false)
   })
 }
 function onClose() {

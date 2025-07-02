@@ -1,8 +1,5 @@
 import axios from 'axios'
 
-// 配置axios基础URL，指向mock服务器
-axios.defaults.baseURL = 'http://localhost:3001'
-
 const API_BASE = '/api/auth'
 
 export function register(data) {

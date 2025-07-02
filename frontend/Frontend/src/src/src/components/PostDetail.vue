@@ -143,7 +143,7 @@
 
 <script setup>
 import { ref, watch, computed } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 
 const props = defineProps({
   post: {
@@ -153,14 +153,10 @@ const props = defineProps({
   mapImg: {
     type: String,
     required: false
-  },
-  isLogin: {
-    type: Boolean,
-    default: false
   }
 })
 
-const emit = defineEmits(['claim', 'comment', 'require-login'])
+const emit = defineEmits(['claim', 'comment'])
 const commentText = ref('')
 
 function formatTime(timeStr) {
@@ -185,28 +181,12 @@ function onContact() {
     ElMessage.info('该物品已被认领')
     return
   }
-  if (!props.isLogin) {
-    ElMessageBox.alert('您还未登录，请先登录后再联系！', '未登录', {
-      confirmButtonText: '去登录',
-      type: 'warning',
-      callback: () => emit('require-login')
-    })
-    return
-  }
   emit('claim', props.post)
   ElMessage.success('已发送联系请求')
 }
 
 function onSendComment() {
   if (!commentText.value.trim()) return
-  if (!props.isLogin) {
-    ElMessageBox.alert('您还未登录，请先登录后再评论！', '未登录', {
-      confirmButtonText: '去登录',
-      type: 'warning',
-      callback: () => emit('require-login')
-    })
-    return
-  }
   emit('comment', commentText.value)
   ElMessage.success('评论已发送')
   commentText.value = ''

@@ -20,8 +20,6 @@
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue'
 import { ElMessage } from 'element-plus'
-import { login } from '../api/auth'
-import { useUserStore } from '../store/user'
 const props = defineProps({
   visible: Boolean
 })
@@ -39,31 +37,12 @@ const rules = {
     { required: true, message: '请输入密码', trigger: 'blur' }
   ]
 }
-const userStore = useUserStore()
-
-async function onLogin() {
-  formRef.value.validate(async valid => {
+function onLogin() {
+  formRef.value.validate(valid => {
     if (!valid) return
-    
-    try {
-      const response = await login({
-        username: form.value.username,
-        password: form.value.password
-      })
-      
-      // 保存token和用户信息
-      userStore.setToken(response.data.token)
-      userStore.setUserInfo(response.data.user)
-      
-      ElMessage.success('登录成功')
-      emit('update:visible', false)
-      
-      // 清空表单
-      form.value.username = ''
-      form.value.password = ''
-    } catch (error) {
-      ElMessage.error(error.response?.data?.message || '登录失败')
-    }
+    // 登录逻辑，成功后关闭弹窗
+    ElMessage.success('登录成功')
+    emit('update:visible', false)
   })
 }
 function onClose() {

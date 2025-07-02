@@ -50,7 +50,7 @@
       
       <div class="right-panel">
         <div class="detail-container">
-          <PostDetail v-if="selectedPost" :post="selectedPost" :map-img="mapImg" :is-login="isLogin" @require-login="showLoginDialog = true" />
+          <PostDetail v-if="selectedPost" :post="selectedPost" :map-img="mapImg" />
           <div v-else class="empty-state">
             <div class="empty-icon">
               <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -98,7 +98,6 @@ import PostDetail from '../components/PostDetail.vue'
 import NewPostForm from '../components/NewPostForm.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import { useUserStore } from '../store/user'
 
 const mapImg = '/map.png'
 
@@ -114,7 +113,9 @@ const posts = ref([
     desc: '在图书馆二楼自习室丢了一个黑色钱包，内有身份证、学生证和少量现金。如有拾到请联系我，必有重谢！',
     images: ['https://images.unsplash.com/photo-1465101046530-73398c7f28ca'],
     claimed: false,
-    comments: [],
+    comments: [
+      { nickname: '小红', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=hong', time: '2024/1/15 19:00:00', content: '我好像在图里见过，让我想想' }
+    ],
     locationText: '图书馆二楼自习室',
     locationCoord: [200, 120]
   },
@@ -147,261 +148,6 @@ const posts = ref([
     comments: [],
     locationText: '学生食堂一楼',
     locationCoord: [100, 250]
-  },
-  {
-    id: 4,
-    type: 'found',
-    title: '捡到钥匙',
-    location: '操场看台',
-    time: '2024/1/16',
-    nickname: '小赵',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=zhao',
-    desc: '操场看台捡到一串钥匙。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '操场看台',
-    locationCoord: [120, 80]
-  },
-  {
-    id: 5,
-    type: 'lost',
-    title: '丢失蓝色雨伞',
-    location: '教学楼B区门口',
-    time: '2024/1/17',
-    nickname: '小钱',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=qian',
-    desc: '教学楼B区门口丢失一把蓝色雨伞。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '教学楼B区门口',
-    locationCoord: [180, 60]
-  },
-  {
-    id: 6,
-    type: 'found',
-    title: '捡到耳机',
-    location: '图书馆三楼',
-    time: '2024/1/18',
-    nickname: '小孙',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=sun',
-    desc: '图书馆三楼捡到一副耳机。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '图书馆三楼',
-    locationCoord: [210, 140]
-  },
-  {
-    id: 7,
-    type: 'lost',
-    title: '丢失笔记本',
-    location: '实验楼一层',
-    time: '2024/1/19',
-    nickname: '小周',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=zhou',
-    desc: '实验楼一层丢失一本笔记本。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '实验楼一层',
-    locationCoord: [90, 200]
-  },
-  {
-    id: 8,
-    type: 'found',
-    title: '捡到饭卡',
-    location: '食堂门口',
-    time: '2024/1/20',
-    nickname: '小吴',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=wu',
-    desc: '食堂门口捡到一张饭卡。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '食堂门口',
-    locationCoord: [60, 180]
-  },
-  {
-    id: 9,
-    type: 'lost',
-    title: '丢失水瓶',
-    location: '体育馆',
-    time: '2024/1/21',
-    nickname: '小郑',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=zheng',
-    desc: '体育馆丢失一个水瓶。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '体育馆',
-    locationCoord: [300, 100]
-  },
-  {
-    id: 10,
-    type: 'found',
-    title: '捡到手套',
-    location: '宿舍楼下',
-    time: '2024/1/22',
-    nickname: '小王',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=wang2',
-    desc: '宿舍楼下捡到一双手套。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '宿舍楼下',
-    locationCoord: [110, 90]
-  },
-  {
-    id: 11,
-    type: 'lost',
-    title: '丢失身份证',
-    location: '行政楼',
-    time: '2024/1/23',
-    nickname: '小冯',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=feng',
-    desc: '行政楼丢失身份证。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '行政楼',
-    locationCoord: [250, 160]
-  },
-  {
-    id: 12,
-    type: 'found',
-    title: '捡到充电宝',
-    location: '教学楼A区',
-    time: '2024/1/24',
-    nickname: '小陈',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=chen',
-    desc: '教学楼A区捡到一个充电宝。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '教学楼A区',
-    locationCoord: [170, 130]
-  },
-  {
-    id: 13,
-    type: 'lost',
-    title: '丢失公交卡',
-    location: '校门口',
-    time: '2024/1/25',
-    nickname: '小褚',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=chu',
-    desc: '校门口丢失公交卡。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '校门口',
-    locationCoord: [80, 60]
-  },
-  {
-    id: 14,
-    type: 'found',
-    title: '捡到书包',
-    location: '篮球场',
-    time: '2024/1/26',
-    nickname: '小卫',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=wei',
-    desc: '篮球场捡到一个书包。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '篮球场',
-    locationCoord: [140, 220]
-  },
-  {
-    id: 15,
-    type: 'lost',
-    title: '丢失U盘',
-    location: '机房',
-    time: '2024/1/27',
-    nickname: '小蒋',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=jiang',
-    desc: '机房丢失U盘。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '机房',
-    locationCoord: [60, 60]
-  },
-  {
-    id: 16,
-    type: 'found',
-    title: '捡到围巾',
-    location: '教学楼C区',
-    time: '2024/1/28',
-    nickname: '小沈',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=shen',
-    desc: '教学楼C区捡到一条围巾。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '教学楼C区',
-    locationCoord: [200, 200]
-  },
-  {
-    id: 17,
-    type: 'lost',
-    title: '丢失手表',
-    location: '操场',
-    time: '2024/1/29',
-    nickname: '小韩',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=han',
-    desc: '操场丢失手表。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '操场',
-    locationCoord: [100, 100]
-  },
-  {
-    id: 18,
-    type: 'found',
-    title: '捡到眼镜',
-    location: '图书馆门口',
-    time: '2024/1/30',
-    nickname: '小杨',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=yang',
-    desc: '图书馆门口捡到一副眼镜。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '图书馆门口',
-    locationCoord: [220, 80]
-  },
-  {
-    id: 19,
-    type: 'lost',
-    title: '丢失笔袋',
-    location: '自习室',
-    time: '2024/1/31',
-    nickname: '小朱',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=zhu',
-    desc: '自习室丢失笔袋。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '自习室',
-    locationCoord: [180, 180]
-  },
-  {
-    id: 20,
-    type: 'found',
-    title: '捡到手链',
-    location: '教学楼D区',
-    time: '2024/2/1',
-    nickname: '小秦',
-    avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=qin',
-    desc: '教学楼D区捡到一条手链。',
-    images: [],
-    claimed: false,
-    comments: [],
-    locationText: '教学楼D区',
-    locationCoord: [160, 160]
   }
 ])
 
@@ -444,9 +190,6 @@ function switchToLogin() {
 const showPostDialog = ref(false)
 const showLoginDialog = ref(false)
 const showRegisterDialog = ref(false)
-
-const userStore = useUserStore()
-const isLogin = computed(() => !!userStore.token)
 </script>
 
 <style scoped>
