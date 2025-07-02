@@ -107,6 +107,7 @@
 import { ref, computed } from 'vue'
 import { useUserStore } from '../store/user'
 import { useRouter, useRoute } from 'vue-router'
+import { ElMessage } from 'element-plus'
 
 const userStore = useUserStore()
 const router = useRouter()
@@ -129,6 +130,10 @@ function goRegister() {
 }
 
 function goPublish() {
+  if (!isLogin.value) {
+    ElMessage.warning('请先登录后再发布信息')
+    return
+  }
   emit('publish')
 }
 
