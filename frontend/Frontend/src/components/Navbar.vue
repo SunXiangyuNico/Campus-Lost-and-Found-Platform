@@ -134,7 +134,7 @@ function goPublish() {
 
 function logout() {
   userStore.logout()
-  router.push('/login')
+  router.push('/')
 }
 
 const emit = defineEmits(['search', 'publish', 'login', 'register'])
