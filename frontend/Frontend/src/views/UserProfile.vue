@@ -1,5 +1,9 @@
 <template>
   <div class="profile-layout">
+    <div class="profile-navbar">
+      <el-button type="primary" icon="el-icon-arrow-left" @click="goHome" round>返回主页</el-button>
+      <span class="profile-title">个人中心</span>
+    </div>
     <div class="profile-header">
       <UserCard :user="userInfo" />
     </div>
@@ -28,6 +32,7 @@ import UserCard from '../components/UserCard.vue'
 import PostList from '../components/PostList.vue'
 import PostDetail from '../components/PostDetail.vue'
 import { useUserStore } from '../store/user'
+import { useRouter } from 'vue-router'
 
 const userStore = useUserStore()
 const userInfo = computed(() => userStore.userInfo || {
@@ -73,9 +78,27 @@ function selectPublished(id) {
 function selectClaimed(id) {
   selectedClaimedId.value = id
 }
+
+const router = useRouter()
+function goHome() {
+  router.push('/')
+}
 </script>
 
 <style scoped>
+.profile-navbar {
+  width: 650px;
+  max-width: 95vw;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.profile-title {
+  font-size: 22px;
+  color: #ff9800;
+  font-weight: bold;
+}
 .profile-layout {
   display: flex;
   flex-direction: column;
@@ -92,15 +115,16 @@ function selectClaimed(id) {
 .profile-card {
   width: 650px;
   max-width: 95vw;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px #e6e8f0;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 24px #ffe0b2 !important;
+  background: #fff8e1 !important;
   padding: 24px 32px 32px 32px;
 }
 .detail-panel {
   margin-top: 24px;
 }
 @media (max-width: 900px) {
-  .profile-header, .profile-card {
+  .profile-header, .profile-card, .profile-navbar {
     width: 100%;
     min-width: 0;
     padding: 8px;
